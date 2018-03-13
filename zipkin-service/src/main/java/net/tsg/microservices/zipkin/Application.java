@@ -1,4 +1,4 @@
-package pl.piomin.microservices.zipkin;
+package net.tsg.microservices.zipkin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
