@@ -1,4 +1,4 @@
-package pl.piomin.microservices.account.model;
+package net.tsg.microservices.account.model;
 
 public class Account {
 

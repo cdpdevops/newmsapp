@@ -1,4 +1,4 @@
-package pl.piomin.microservices.account.api;
+package net.tsg.microservices.account.api;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pl.piomin.microservices.account.model.Account;
+import net.tsg.microservices.account.model.Account;
 
 @RestController
 public class Api {
@@ -20,13 +20,13 @@ public class Api {
 	
 	public Api() {
 		accounts = new ArrayList<>();
-		accounts.add(new Account(1, 1, "111111"));
-		accounts.add(new Account(2, 2, "222222"));
-		accounts.add(new Account(3, 3, "333333"));
-		accounts.add(new Account(4, 4, "444444"));
-		accounts.add(new Account(5, 1, "555555"));
-		accounts.add(new Account(6, 2, "666666"));
-		accounts.add(new Account(7, 2, "777777"));
+		accounts.add(new Account(101, 1, "AD12345"));
+		accounts.add(new Account(102, 2, "AD77745"));
+		accounts.add(new Account(103, 3, "AD88845"));
+		accounts.add(new Account(104, 4, "AD99945"));
+		accounts.add(new Account(105, 1, "AD00045"));
+		accounts.add(new Account(106, 2, "AD20245"));
+		accounts.add(new Account(107, 2, "AD92345"));
 	}
 	
 	@RequestMapping("/accounts/{number}")
