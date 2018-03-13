@@ -1,4 +1,4 @@
-package pl.piomin.microservices.customer.exceptions;
+package net.tsg.microservices.customer.exceptions;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 

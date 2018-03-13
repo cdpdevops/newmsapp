@@ -1,13 +1,11 @@
-package pl.piomin.microservices.customer;
+package net.tsg.microservices.eureka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
-@EnableDiscoveryClient
-@EnableFeignClients
+@EnableEurekaServer
 public class Application {
 
 	public static void main(String[] args) {

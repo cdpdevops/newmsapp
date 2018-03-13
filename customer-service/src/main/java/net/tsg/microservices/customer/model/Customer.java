@@ -1,11 +1,11 @@
-package pl.piomin.microservices.customer.model;
+package net.tsg.microservices.customer.model;
 
 import java.util.List;
 
 public class Customer {
 
 	private Integer id;
-	private String pesel;
+	private String taxid;
 	private String name;
 	private CustomerType type;
 	private List<Account> accounts;
@@ -14,9 +14,9 @@ public class Customer {
 		
 	}
 	
-	public Customer(Integer id, String pesel, String name, CustomerType type) {
+	public Customer(Integer id, String taxid, String name, CustomerType type) {
 		this.id = id;
-		this.pesel = pesel;
+		this.taxid = taxid;
 		this.name = name;
 		this.type = type;
 	}
@@ -29,12 +29,12 @@ public class Customer {
 		this.id = id;
 	}
 
-	public String getPesel() {
-		return pesel;
+	public String getTaxid() {
+		return taxid;
 	}
 
-	public void setPesel(String pesel) {
-		this.pesel = pesel;
+	public void setTaxid(String taxid) {
+		this.taxid = taxid;
 	}
 
 	public String getName() {
