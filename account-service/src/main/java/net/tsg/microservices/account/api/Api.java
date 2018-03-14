@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.tsg.microservices.account.model.Account;
 
-@RestController
+@Controller
 public class Api {
 
 	private List<Account> accounts;
@@ -46,5 +49,18 @@ public class Api {
 		logger.info("Account.findAll()");
 		return accounts;
 	}
+	
+	@RequestMapping(value = "/showTableWithAccounts", method = RequestMethod.GET)
+    public String showTableWithValues(Model model) 
+    {
+		
+        //list with accounts
+        List<Account>  acList = new ArrayList<Account>();
+        acList =  this.findAll();
+        logger.info("Size of the list is "+acList.size());
+        model.addAttribute("aclist", acList);
+        model.addAttribute("acclist", accounts);
+        return "accountTable";
+    }
 	
 }
