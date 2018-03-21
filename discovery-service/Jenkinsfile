@@ -9,21 +9,20 @@ node('maven') {
 
         stage('Build') {
             sh 'mvn clean install'
-
-            def pom = readMavenPom file:'pom.xml'
+            def pom = readMavenPom file:'discovery-service/pom.xml'
             print pom.version
             env.version = pom.version
         }
 
         stage('Image') {
             dir ('discovery-service') {
-                def app = docker.build "localhost:5000/discovery-service:${env.v                                                                             ersion}"
+                def app = docker.build "localhost:5000/discovery-service:${env.version}"
                 app.push()
             }
         }
 
         stage ('Run') {
-            docker.image("localhost:5000/discovery-service:${env.version}").run(                                                                             '-p 8761:8761 -h discovery --name discovery')
+            docker.image("localhost:5000/discovery-service:${env.version}").run('-p 8761:8761 -h discovery --name discovery')
         }
 
         stage ('Final') {
