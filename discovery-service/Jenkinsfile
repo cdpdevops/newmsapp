@@ -1,7 +1,7 @@
 node('maven') {
 
-    tools {
-        maven 'Maven_3.5.2' 
+     withMaven(maven:'mvn_home') {
+ 
     
         stage('Checkout') {
             git url: 'https://github.com/cdpdevops/newmsapp.git', credentialsId: 'gitaccess', branch: 'microbes'
