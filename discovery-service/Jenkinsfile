@@ -1,17 +1,27 @@
 node {
-	
-    withMaven(maven:'mvn_home') {
-
+        agent none
         stage('Checkout') {
+            agent {
+                label:"maven"
+            }
+            steps {
             git url: 'https://github.com/cdpdevops/newmsapp.git', credentialsId: 'gitaccess', branch: 'microbes'
+            }
         }
-
+        withMaven {
+        maven:'mvn_home'
         stage('Build') {
+            agent {
+                label : "maven"
+            }
+        steps {
            sh 'mvn clean install'
 
             def pom = readMavenPom file:'pom.xml'
             print pom.version
             env.version = pom.version
+            }
+        }
         }
 
         stage('Image') {
@@ -29,6 +39,5 @@ node {
             build job: 'account-service-pipeline', wait: false
         }      
 
-    }
 
 }
