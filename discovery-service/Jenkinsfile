@@ -14,6 +14,7 @@ node('maven') {
             env.version = pom.version
         }
      }
+}
 
         
 node ('dockerhost') {
