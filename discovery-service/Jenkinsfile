@@ -1,12 +1,18 @@
 node {
-
+	agent none
     withMaven(maven:'maven') {
 
         stage('Checkout') {
-            git url: 'https://github.com/piomin/sample-spring-microservices.git', credentialsId: 'github-piomin', branch: 'master'
+        agent {
+            label : "maven"
+            }        
+            git url: 'https://github.com/cdpdevops/newmsapp.git', credentialsId: 'gitaccess', branch: 'microbes'
         }
 
         stage('Build') {
+        agent {
+        label:"maven"
+        }
             sh 'mvn clean install'
 
             def pom = readMavenPom file:'pom.xml'
@@ -15,6 +21,9 @@ node {
         }
 
         stage('Image') {
+        agent {
+        label : "dockerhost"
+        }
             dir ('discovery-service') {
                 def app = docker.build "localhost:5000/discovery-service:${env.version}"
                 app.push()
@@ -22,6 +31,9 @@ node {
         }
 
         stage ('Run') {
+        agent {
+        label : "dockerhost"
+        }
             docker.image("localhost:5000/discovery-service:${env.version}").run('-p 8761:8761 -h discovery --name discovery')
         }
 
