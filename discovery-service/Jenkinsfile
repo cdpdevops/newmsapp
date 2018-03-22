@@ -16,7 +16,7 @@ node('maven') {
         stage('Image') {
             dir ('discovery-service') {
                 docker.withServer('tcp://10.0.1.15:2375'){
-            	def app = docker.build "cdp-gateway-service:${env.version}"
+            	def app = docker.build "cdp-discovery-service:${env.version}"
                 }
             }
             
