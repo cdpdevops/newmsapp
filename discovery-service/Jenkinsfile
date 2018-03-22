@@ -19,15 +19,12 @@ node('maven') {
             	def app = docker.build "cdp-gateway-service:${env.version}"
                 }
             }
+            
         }
-     }
-}
-
-        
-node ('dockerhost') {
-
-        stage ('Run') {
-            docker.image("cdp-discovery-service:${env.version}").run('-p 8761:8761 --name discovery')
+        stage('Run') {
+                docker.withServer('tcp://10.0.1.15:2375') {
+            	docker.image("cdp-discovery-service:${env.version}").run('-p 8761:8761 --name discovery')
+                }
+            }
         }
-
 }
