@@ -9,7 +9,7 @@ node ('maven') {
         stage('Build') {
             sh 'mvn -f account-service/pom.xml clean install'
 
-            def pom = readMavenPom file:'pom.xml'
+            def pom = readMavenPom file:'account-service/pom.xml'
             print pom.version
             env.version = pom.version
         }
