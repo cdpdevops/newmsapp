@@ -17,7 +17,6 @@ node('maven') {
             dir ('discovery-service') {
                 docker.withServer('tcp://10.0.1.15:2375'){
             	def app = docker.build "cdp-gateway-service:${env.version}"
-                app.push()
                 }
             }
         }
