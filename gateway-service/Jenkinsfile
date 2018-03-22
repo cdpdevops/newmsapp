@@ -24,7 +24,7 @@ node ('maven') {
 
         stage ('Run') {
             docker.withServer('tcp://10.0.1.15:2375'){
-            docker.image("cdp-gateway-service:${env.version}").run('-p 8765:8765 --name gateway')
+            docker.image("cdp-gateway-service:${env.version}").run('-p 8765:8765 --name gateway --link newaccount --link discovery')
             }
         }
      
