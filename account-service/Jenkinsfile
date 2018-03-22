@@ -1,16 +1,16 @@
  using hostname.
 
 [code language="java"]
-node {
+node ('maven') {
 
-    withMaven(maven:'maven') {
+    withMaven(maven:'mvn_home') {
 
         stage('Checkout') {
-            git url: 'https://github.com/piomin/sample-spring-microservices.git', credentialsId: 'github-piomin', branch: 'master'
+            git url: 'https://github.com/cdpdevops/newmsapp.git', credentialsId: 'gitaccess', branch: 'microbes'
         }
 
         stage('Build') {
-            sh 'mvn clean install'
+            sh 'mvn -f account-service/pom.xml clean install'
 
             def pom = readMavenPom file:'pom.xml'
             print pom.version
@@ -19,19 +19,17 @@ node {
 
         stage('Image') {
             dir ('account-service') {
-                def app = docker.build "localhost:5000/account-service:${env.version}"
-                app.push()
+                docker.withServer('tcp://10.0.1.15:2375'){
+                def app = docker.build "cdp-account-service:${env.version}"
+                }
             }
         }
 
         stage ('Run') {
-            docker.image("localhost:5000/account-service:${env.version}").run('-p 2222:2222 -h account --name account --link discovery')
+            docker.withServer('tcp://10.0.1.15:2375'){
+            docker.image("cdp-account-service:${env.version}").run('-p 2222:2222 --name account')
+            }
         }
-
-        stage ('Final') {
-            build job: 'customer-service-pipeline', wait: false
-        }      
-
     }
 
 }

@@ -30,6 +30,7 @@ public class Api {
 		accounts.add(new Account(105, 1, "AD00045"));
 		accounts.add(new Account(106, 2, "AD20245"));
 		accounts.add(new Account(107, 2, "AD92345"));
+		accounts.add(new Account(108, 2, "AD82345"));
 	}
 	
 	@RequestMapping("/accounts/{number}")
