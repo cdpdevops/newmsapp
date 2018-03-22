@@ -15,7 +15,8 @@ node('maven') {
         }
         stage('Image') {
             dir ('discovery-service') {
-                sh 'docker build -H tcp://10.0.1.15:2375 -t cdp-discovery-service:${env.version} .'
+            	def app = docker.build "-H tcp://10.0.1.15:2375 cdp-gateway-service:${env.version}"
+                app.push()
             }
         }
      }
