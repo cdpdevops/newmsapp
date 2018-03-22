@@ -13,6 +13,11 @@ node('maven') {
             print pom.version
             env.version = pom.version
         }
+        stage('Image') {
+            dir ('discovery-service') {
+                sh 'docker build -H tcp://10.0.1.15:2375 -t cdp-discovery-service:${env.version} .'
+            }
+        }
      }
 }
 
@@ -20,7 +25,7 @@ node('maven') {
 node ('dockerhost') {
 
         stage ('Run') {
-            docker.image("cdp-shreeapp:v0.1").run('-p 8761:8761 --name discovery')
+            docker.image("cdp-discovery-service:${env.version}").run('-p 8761:8761 --name discovery')
         }
 
 }
