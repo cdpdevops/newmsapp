@@ -1,6 +1,3 @@
- using hostname.
-
-[code language="java"]
 node ('maven') {
 
     withMaven(maven:'mvn_home') {
