@@ -1,13 +1,16 @@
-node {
+ using hostname.
 
-    withMaven(maven:'maven') {
+[code language="java"]
+node ('maven') {
+
+    withMaven(maven:'mvn_home') {
 
         stage('Checkout') {
-            git url: 'https://github.com/cdpdevops/newsmsapp.git', credentialsId: 'github-piomin', branch: 'master'
+            git url: 'https://github.com/cdpdevops/newmsapp.git', credentialsId: 'gitaccess', branch: 'microbes'
         }
 
         stage('Build') {
-            sh 'mvn clean install'
+            sh 'mvn -f account-service/pom.xml clean install'
 
             def pom = readMavenPom file:'pom.xml'
             print pom.version
@@ -15,20 +18,18 @@ node {
         }
 
         stage('Image') {
-            dir ('customer-service') {
-                def app = docker.build "localhost:5000/customer-service:${env.version}"
-                app.push()
+            dir ('account-service') {
+                docker.withServer('tcp://10.0.1.15:2375'){
+                def app = docker.build "cdp-account-service:${env.version}"
+                }
             }
         }
 
         stage ('Run') {
-            docker.image("localhost:5000/customer-service:${env.version}").run('-p 3333:3333 -h customer --name customer --link discovery --link account')
+            docker.withServer('tcp://10.0.1.15:2375'){
+            docker.image("cdp-account-service:${env.version}").run('-p 2222:2222 --name account')
+            }
         }
-
-        stage ('Final') {
-            build job: 'gateway-service-pipeline', wait: false
-        }      
-
     }
 
 }
